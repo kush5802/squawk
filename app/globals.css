@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --surface2: #1a1a1a;
+  --border: #222222;
+  --accent: #e8c84a;
+  --red: #e84a4a;
+  --green: #4ae87a;
+  --text: #e8e8e0;
+  --muted: #666666;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  height: 100%;
+  overflow: hidden;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+/* PTT button active state */
+.ptt-active {
+  background: rgba(232, 74, 74, 0.15) !important;
+  border-color: var(--red) !important;
+  color: var(--red) !important;
+  box-shadow: 0 0 24px rgba(232, 74, 74, 0.2);
+}
+
+/* Pulse animation */
+@keyframes pulse-red {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(232, 74, 74, 0.5); }
+  50% { box-shadow: 0 0 0 10px rgba(232, 74, 74, 0); }
+}
+
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74, 232, 122, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(74, 232, 122, 0); }
+}
+
+.pulse-red { animation: pulse-red 1s ease infinite; }
+.pulse-green { animation: pulse-green 2s ease infinite; }
+
+/* Wave bars for active speaker */
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+
+.wave-bar { animation: wave 0.6s ease-in-out infinite; }
+.wave-bar:nth-child(2) { animation-delay: 0.1s; }
+.wave-bar:nth-child(3) { animation-delay: 0.2s; }
+.wave-bar:nth-child(4) { animation-delay: 0.15s; }
+.wave-bar:nth-child(5) { animation-delay: 0.05s; }
+
+/* Flash animation for new entries */
+@keyframes flash-in {
+  0% { background: rgba(232, 200, 74, 0.1); }
+  100% { background: transparent; }
+}
+
+.flash-in { animation: flash-in 1s ease forwards; }
