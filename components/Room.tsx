@@ -15,6 +15,7 @@ interface RoomProps {
   token: string
   myName: string
   myRole: 'listener' | 'squawker'
+  roomName: string
   onLeave: () => void
 }
 
@@ -33,7 +34,7 @@ interface FeedEntry {
 const encoder = new TextEncoder()
 const decoder = new TextDecoder()
 
-function SquawkTerminal({ myName, myRole, onLeave }: { myName: string; myRole: 'listener' | 'squawker'; onLeave: () => void }) {
+function SquawkTerminal({ myName, myRole, roomName, onLeave }: { myName: string; myRole: 'listener' | 'squawker'; roomName: string; onLeave: () => void }) {
   const [transmitting, setTransmitting] = useState(false)
   const [muted, setMuted] = useState(false)
   const [feed, setFeed] = useState<FeedEntry[]>([])
@@ -128,7 +129,7 @@ function SquawkTerminal({ myName, myRole, onLeave }: { myName: string; myRole: '
         background: 'var(--surface)', flexShrink: 0,
       }}>
         <div style={{ fontSize: 18, fontWeight: 700, letterSpacing: '0.2em', color: 'var(--accent)' }}>
-          SQUAWK <span style={{ color: 'var(--muted)', fontWeight: 300 }}>/ TRADING FLOOR</span>
+          SQUAWK <span style={{ color: 'var(--muted)', fontWeight: 300 }}>/ {roomName}</span>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
@@ -325,7 +326,7 @@ function SquawkTerminal({ myName, myRole, onLeave }: { myName: string; myRole: '
   )
 }
 
-export default function Room({ token, myName, myRole, onLeave }: RoomProps) {
+export default function Room({ token, myName, myRole, roomName, onLeave }: RoomProps) {
   const livekitUrl = process.env.NEXT_PUBLIC_LIVEKIT_URL
 
   if (!livekitUrl) {
@@ -345,7 +346,7 @@ export default function Room({ token, myName, myRole, onLeave }: RoomProps) {
       video={false}
       onDisconnected={onLeave}
     >
-      <SquawkTerminal myName={myName} myRole={myRole} onLeave={onLeave} />
+      <SquawkTerminal myName={myName} myRole={myRole} roomName={roomName} onLeave={onLeave} />
     </LiveKitRoom>
   )
 }
