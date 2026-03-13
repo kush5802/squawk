@@ -12,16 +12,16 @@ type Stage = 'lobby' | 'join' | 'room'
 export default function Page() {
   const [stage, setStage] = useState<Stage>('lobby')
   const [selectedRoom, setSelectedRoom] = useState<{ id: string; name: string } | null>(null)
-  const [session, setSession] = useState<{ token: string; name: string; role: 'listener' | 'squawker'; roomId: string; roomName: string } | null>(null)
+  const [session, setSession] = useState<{ token: string; name: string; role: 'listener' | 'squawker'; roomId: string; roomName: string; passcode: string } | null>(null)
 
   function handleSelectRoom(roomId: string, roomName: string) {
     setSelectedRoom({ id: roomId, name: roomName })
     setStage('join')
   }
 
-  function handleJoin(name: string, role: 'listener' | 'squawker', token: string) {
+  function handleJoin(name: string, role: 'listener' | 'squawker', token: string, passcode: string) {
     if (!selectedRoom) return
-    setSession({ token, name, role, roomId: selectedRoom.id, roomName: selectedRoom.name })
+    setSession({ token, name, role, roomId: selectedRoom.id, roomName: selectedRoom.name, passcode })
     setStage('room')
   }
 
@@ -58,7 +58,9 @@ export default function Page() {
           token={session.token}
           myName={session.name}
           myRole={session.role}
+          roomId={session.roomId}
           roomName={session.roomName}
+          passcode={session.passcode}
           onLeave={handleLeave}
         />
       )}

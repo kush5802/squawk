@@ -5,7 +5,7 @@ import { useState } from 'react'
 interface JoinModalProps {
   roomId: string
   roomName: string
-  onJoin: (name: string, role: 'listener' | 'squawker', token: string) => void
+  onJoin: (name: string, role: 'listener' | 'squawker', token: string, passcode: string) => void
   onBack: () => void
 }
 
@@ -39,7 +39,7 @@ export default function JoinModal({ roomId, roomName, onJoin, onBack }: JoinModa
         return
       }
 
-      onJoin(trimmed, role, data.token)
+      onJoin(trimmed, role, data.token, passcode.trim())
     } catch {
       setError('Network error — please try again')
       setLoading(false)

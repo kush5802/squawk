@@ -15,7 +15,9 @@ interface RoomProps {
   token: string
   myName: string
   myRole: 'listener' | 'squawker'
+  roomId: string
   roomName: string
+  passcode: string
   onLeave: () => void
 }
 
@@ -34,7 +36,7 @@ interface FeedEntry {
 const encoder = new TextEncoder()
 const decoder = new TextDecoder()
 
-function SquawkTerminal({ myName, myRole, roomName, onLeave }: { myName: string; myRole: 'listener' | 'squawker'; roomName: string; onLeave: () => void }) {
+function SquawkTerminal({ myName, myRole, roomId, roomName, passcode, onLeave }: { myName: string; myRole: 'listener' | 'squawker'; roomId: string; roomName: string; passcode: string; onLeave: () => void }) {
   const [transmitting, setTransmitting] = useState(false)
   const [muted, setMuted] = useState(false)
   const [feed, setFeed] = useState<FeedEntry[]>([])
@@ -320,13 +322,13 @@ function SquawkTerminal({ myName, myRole, roomName, onLeave }: { myName: string;
         </div>
 
         {/* RIGHT: PRESENCE */}
-        <PresencePanel myName={myName} myRole={myRole} />
+        <PresencePanel myName={myName} myRole={myRole} roomId={roomId} passcode={passcode} />
       </div>
     </div>
   )
 }
 
-export default function Room({ token, myName, myRole, roomName, onLeave }: RoomProps) {
+export default function Room({ token, myName, myRole, roomId, roomName, passcode, onLeave }: RoomProps) {
   const livekitUrl = process.env.NEXT_PUBLIC_LIVEKIT_URL
 
   if (!livekitUrl) {
@@ -346,7 +348,7 @@ export default function Room({ token, myName, myRole, roomName, onLeave }: RoomP
       video={false}
       onDisconnected={onLeave}
     >
-      <SquawkTerminal myName={myName} myRole={myRole} roomName={roomName} onLeave={onLeave} />
+      <SquawkTerminal myName={myName} myRole={myRole} roomId={roomId} roomName={roomName} passcode={passcode} onLeave={onLeave} />
     </LiveKitRoom>
   )
 }
